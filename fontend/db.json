@@ -1,0 +1,188 @@
+{
+  "categories": [
+    {
+      "CategoryID": 1,
+      "CategoryName": "Academic news",
+      "CategoryDesciption": "This category can include articles about research findings, faculty appointments and promotions, and other academic-related announcements.",
+      "ParentCategoryID": null,
+      "IsActive": true
+    },
+    {
+      "CategoryID": 2,
+      "CategoryName": "Student Affairs",
+      "CategoryDesciption": "This category can include articles about student activities, events, and initiatives, such as student clubs, organizations and sports.",
+      "ParentCategoryID": null,
+      "IsActive": true
+    },
+    {
+      "CategoryID": 3,
+      "CategoryName": "Campus Safety",
+      "CategoryDesciption": "This category can include articles about incidents and safety measures implemented on campus to ensure the safety of students and faculty.",
+      "ParentCategoryID": null,
+      "IsActive": true
+    },
+    {
+      "CategoryID": 4,
+      "CategoryName": "Alumni News",
+      "CategoryDesciption": "This category can include articles about the achievements and accomplishments of former students and alumni, such as graduations, job promotions and career successes.",
+      "ParentCategoryID": null,
+      "IsActive": true
+    },
+    {
+      "CategoryID": 5,
+      "CategoryName": "Capstone Project News",
+      "CategoryDesciption": "This category is typically a comprehensive and detailed report created as part of an academic or professional capstone project.",
+      "ParentCategoryID": null,
+      "IsActive": false
+    }
+  ],
+
+  "newsArticles": [
+    {
+      "NewsArticleID": "1",
+      "NewsTitle": "University FU Celebrates Success of Alumni in Various Fields",
+      "Headline": "University FU Celebrates Success of Alumni in Various Fields",
+      "CreatedDate": "2024-05-05T00:00:00.000Z",
+      "NewsContent": "University FU recently commemorated the achievements of its alumni...",
+      "NewsSource": "N/A",
+      "CategoryID": 4,
+      "NewsStatus": true,
+      "CreatedByID": 1,
+      "UpdatedByID": 1,
+      "ModifiedDate": "2024-05-05T00:00:00.000Z",
+      "id": "3b4a",
+      "NewsArticleImage": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80&auto=format&fit=crop"
+    },
+    {
+      "NewsArticleID": "2",
+      "NewsTitle": "Alumni Association Launches Mentorship Program for Students",
+      "Headline": "Alumni Association Launches Mentorship Program for Students",
+      "CreatedDate": "2024-05-05T00:00:00.000Z",
+      "NewsContent": "The Alumni Association of University FU recently unveiled a mentorship program...",
+      "NewsSource": "Internet",
+      "CategoryID": 4,
+      "NewsStatus": true,
+      "CreatedByID": 1,
+      "UpdatedByID": 1,
+      "ModifiedDate": "2024-05-05T00:00:00.000Z",
+      "id": "883f",
+      "NewsArticleImage": "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800&q=80&auto=format&fit=crop"
+    },
+    {
+      "NewsArticleID": "3",
+      "NewsTitle": "Academic Department Announces Groundbreaking Initiative",
+      "Headline": "Academic Department Announces Groundbreaking Initiative",
+      "CreatedDate": "2024-05-05T00:00:00.000Z",
+      "NewsContent": "The Software Engineering Department at FU has unveiled a groundbreaking initiative...",
+      "NewsSource": "N/A",
+      "CategoryID": 1,
+      "NewsStatus": true,
+      "CreatedByID": 2,
+      "UpdatedByID": 2,
+      "ModifiedDate": "2024-05-05T00:00:00.000Z",
+      "id": "f14e",
+      "NewsArticleImage": "https://tse4.mm.bing.net/th/id/OIP.lus9KiAFOBqlZBKU2J-fUgHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
+    },
+    {
+      "NewsArticleID": "4",
+      "NewsTitle": "Renowned Scholar Appointed as Head of AI Department",
+      "Headline": "Renowned Scholar Appointed as Head of AI Department",
+      "CreatedDate": "2024-05-05T00:00:00.000Z",
+      "NewsContent": "FU proudly announces the appointment of David Nitz as the new Head of AI Department...",
+      "NewsSource": "N/A",
+      "CategoryID": 1,
+      "NewsStatus": true,
+      "CreatedByID": 2,
+      "UpdatedByID": 2,
+      "ModifiedDate": "2024-05-05T00:00:00.000Z",
+      "id": "d547",
+      "NewsArticleImage": "https://www.myresearchconnect.com/wp-content/uploads/2023/08/CNRS-Rising-Talents-Recruiting-Artificial-Intelligence-AI-Project-Leaders-to-France.jpg"
+    },
+    {
+      "NewsArticleID": "5",
+      "NewsTitle": "New Research Findings Shed Light on STEM",
+      "Headline": "New Research Findings Shed Light on STEM",
+      "CreatedDate": "2024-05-05T00:00:00.000Z",
+      "NewsContent": "Groundbreaking research conducted by the Research Center highlights new insights into STEM...",
+      "NewsSource": "N/A",
+      "CategoryID": 1,
+      "NewsStatus": true,
+      "CreatedByID": 2,
+      "UpdatedByID": 2,
+      "ModifiedDate": "2024-05-05T00:00:00.000Z",
+      "id": "a953",
+      "NewsArticleImage": "https://www.nub.edu.eg/wp-content/uploads/2020/10/NUB_082.jpg"
+    }
+  ],
+
+  "newsTags": [
+    { "NewsArticleID": "1", "TagID": 5 },
+    { "NewsArticleID": "1", "TagID": 7 },
+    { "NewsArticleID": "1", "TagID": 9 },
+    { "NewsArticleID": "2", "TagID": 5 },
+    { "NewsArticleID": "2", "TagID": 7 },
+    { "NewsArticleID": "2", "TagID": 8 },
+    { "NewsArticleID": "2", "TagID": 9 },
+    { "NewsArticleID": "3", "TagID": 1 },
+    { "NewsArticleID": "3", "TagID": 8 },
+    { "NewsArticleID": "3", "TagID": 9 },
+    { "NewsArticleID": "4", "TagID": 1 },
+    { "NewsArticleID": "4", "TagID": 4 },
+    { "NewsArticleID": "4", "TagID": 8 },
+    { "NewsArticleID": "4", "TagID": 9 },
+    { "NewsArticleID": "5", "TagID": 2 },
+    { "NewsArticleID": "5", "TagID": 3 },
+    { "NewsArticleID": "5", "TagID": 4 },
+    { "NewsArticleID": "5", "TagID": 6 }
+  ],
+
+  "systemAccounts": [
+    {
+      "AccountID": 1,
+      "AccountName": "Emma William",
+      "AccountEmail": "EmmaWilliam@FUNewsManagement.org",
+      "AccountRole": 2,
+      "AccountPassword": "@1"
+    },
+    {
+      "AccountID": 2,
+      "AccountName": "Olivia James",
+      "AccountEmail": "OliviaJames@FUNewsManagement.org",
+      "AccountRole": 2,
+      "AccountPassword": "@1"
+    },
+    {
+      "AccountID": 3,
+      "AccountName": "Isabella David",
+      "AccountEmail": "IsabellaDavid@FUNewsManagement.org",
+      "AccountRole": 2,
+      "AccountPassword": "@1"
+    },
+    {
+      "AccountID": 4,
+      "AccountName": "Michael Charlotte",
+      "AccountEmail": "MichaelCharlotte@FUNewsManagement.org",
+      "AccountRole": 2,
+      "AccountPassword": "@1"
+    },
+    {
+      "AccountID": 5,
+      "AccountName": "Steve Paris",
+      "AccountEmail": "SteveParis@FUNewsManagement.org",
+      "AccountRole": 1,
+      "AccountPassword": "@1"
+    }
+  ],
+
+  "tags": [
+    { "TagID": 1, "TagName": "Education", "Note": "Education Note" },
+    { "TagID": 2, "TagName": "Technology", "Note": "Technology Note" },
+    { "TagID": 3, "TagName": "Research", "Note": "Research Note" },
+    { "TagID": 4, "TagName": "Innovation", "Note": "Innovation Note" },
+    { "TagID": 5, "TagName": "Campus Life", "Note": "Campus Life Note" },
+    { "TagID": 6, "TagName": "Faculty", "Note": "Faculty Achievements" },
+    { "TagID": 7, "TagName": "Alumni", "Note": "Alumni News" },
+    { "TagID": 8, "TagName": "Events", "Note": "University Events" },
+    { "TagID": 9, "TagName": "Resources", "Note": "Campus Resources" }
+  ]
+}

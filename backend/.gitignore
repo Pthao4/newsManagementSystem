@@ -1,0 +1,55 @@
+HELP.md
+target/
+*.jar
+*.war
+
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### Spring Boot Sensitive Files ###
+application.properties
+application.yml
+
+### Logs ###
+*.log
+logs/
+
+### Security / Keys (JWT, OAuth, etc.) ###
+*.pem
+*.key
+*.p12
+*.jks
+*.json
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### OS / System ###
+.DS_Store
+Thumbs.db
