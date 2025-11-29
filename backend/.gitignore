@@ -8,8 +8,8 @@ target/
 !**/src/test/**/target/
 
 ### Spring Boot Sensitive Files ###
-application.properties
-application.yml
+src/main/resources/application.properties
+src/main/resources/application.yml
 
 ### Logs ###
 *.log
