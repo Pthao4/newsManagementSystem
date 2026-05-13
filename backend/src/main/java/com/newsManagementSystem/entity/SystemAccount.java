@@ -17,16 +17,16 @@ public class SystemAccount {
     @Column(name = "AccountID", nullable = false)
     private int id;
 
-    @Column(name = "AccountName", columnDefinition = "nvarchar(100)")
+    @Column(name = "AccountName", length = 100)
     private String name;
 
-    @Column(name = "AccountEmail", columnDefinition = "nvarchar(70)")
+    @Column(name = "AccountEmail", length = 70)
     private String email;
 
 //    @Enumerated(EnumType.STRING)
     @Column(name = "AccountRole")
     private int role;
 
-    @Column(name = "AccountPassword", columnDefinition = "nvarchar(70)")
+    @Column(name = "AccountPassword", length = 70)
     private String password;
 }

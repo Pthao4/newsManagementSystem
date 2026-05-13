@@ -13,17 +13,17 @@ import lombok.*;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CategoryID", columnDefinition = "int", nullable = false)
+    @Column(name = "CategoryID", nullable = false)
     private Integer id;
 
-    @Column(name = "CategoryName", columnDefinition = "nvarchar(100)", nullable = false)
+    @Column(name = "CategoryName", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "CategoryDesciption", columnDefinition = "nvarchar(250)", nullable = false)
+    @Column(name = "CategoryDesciption", length = 250, nullable = false)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ParentCategoryID", columnDefinition = "int")
+    @JoinColumn(name = "ParentCategoryID")
     private Category parent;
 
 //    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
