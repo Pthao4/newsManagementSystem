@@ -1,5 +1,6 @@
 package com.newsManagementSystem.entity;
 
+import com.newsManagementSystem.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +24,9 @@ public class SystemAccount {
     @Column(name = "AccountEmail", length = 70)
     private String email;
 
-//    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "AccountRole")
-    private int role;
+    private Role role;
 
     @Column(name = "AccountPassword", length = 70)
     private String password;

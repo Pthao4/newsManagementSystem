@@ -19,13 +19,14 @@ public class NewsArticleController {
     private final NewsArticleService newsArticleService;
 
     @GetMapping()
+    @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')")
     public ResponseEntity<List<NewsArticleResponse>> getNewsArticle() {
         List<NewsArticleResponse> list = newsArticleService.getAllNewsArticle();
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')")
     public ResponseEntity<NewsArticleResponse> getNewsArticleById(@PathVariable int id) {
         NewsArticleResponse newsArticleResponse = newsArticleService.getNewsArticleById(id);
         return ResponseEntity.ok(newsArticleResponse);
@@ -33,7 +34,7 @@ public class NewsArticleController {
 
     @PostMapping
     @Transactional
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseEntity<NewsArticleResponse> createNewsArticle(@RequestBody NewsArticleRequest newsArticleRequest) {
         NewsArticleResponse response = newsArticleService.createNewsArticle(newsArticleRequest);
         return ResponseEntity.ok(response);
@@ -41,7 +42,7 @@ public class NewsArticleController {
 
     @PutMapping("/{id}")
     @Transactional
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseEntity<NewsArticleResponse> updateNewsArticle(@PathVariable int id, @RequestBody NewsArticleRequest newsArticleRequest) {
         newsArticleRequest.setId(id);
         NewsArticleResponse response = newsArticleService.updateNewsArticle(newsArticleRequest);
@@ -50,7 +51,7 @@ public class NewsArticleController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseEntity<NewsArticleResponse> deleteNewsArticle(@PathVariable int id) {
         NewsArticleResponse response = newsArticleService.deleteNewsArticleById(id);
         return ResponseEntity.ok(response);
