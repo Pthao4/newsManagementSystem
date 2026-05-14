@@ -33,6 +33,7 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
     private final SystemAccountMapper systemAccountMapper;
+    private final TagServiceImpl tagService;
 
     @Override
     public List<NewsArticleResponse> getAllNewsArticle() {
@@ -56,7 +57,11 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     @Override
     public NewsArticleResponse saveNewsArticle(NewsArticleRequest newsArticleRequest) {
         System.out.println(newsArticleRequest.toString());
-        NewsArticle saved = newsArticleRepository.save(newsArticleMapper.requestToEntity(newsArticleRequest));
+        NewsArticle entity = newsArticleMapper.requestToEntity(newsArticleRequest);
+        if (newsArticleRequest.getNewsTagNames() != null) {
+            entity.setNewsTag(tagService.findOrCreateTags(newsArticleRequest.getNewsTagNames()));
+        }
+        NewsArticle saved = newsArticleRepository.save(entity);
         return newsArticleMapper.entityToResponse(saved);
     }
 
@@ -91,7 +96,10 @@ public class NewsArticleServiceImpl implements NewsArticleService {
         existing.setUpdatedBy(updatedBy);
 
         System.out.println("Cập nhật danh sách Tag");
-        if (newsArticleRequest.getNewsTagIDs() != null) {
+        if (newsArticleRequest.getNewsTagNames() != null) {
+            List<Tag> updatedTags = tagService.findOrCreateTags(newsArticleRequest.getNewsTagNames());
+            existing.setNewsTag(updatedTags);
+        } else if (newsArticleRequest.getNewsTagIDs() != null) {
             List<Tag> updatedTags = newsArticleRequest.getNewsTagIDs().stream()
                     .map(tagRepository::findById)
                     .filter(Optional::isPresent)

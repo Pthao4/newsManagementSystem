@@ -20,6 +20,7 @@ public class NewsArticleRequest {
     private String content;
     private String source;
     private List<Integer> newsTagIDs;
+    private List<String> newsTagNames;
     private boolean status;
     private Integer categoryId;
     private Integer createdBy;

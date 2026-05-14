@@ -7,7 +7,7 @@ export default function Footer() {
           © {new Date().getFullYear()} FUNews. All rights reserved.
         </p>
         <p className="mb-0 small">
-          Developed by <span className="text-primary fw-semibold">thaonp_SE1880JV</span>
+          Developed by <span className="text-primary fw-semibold">Pthao4</span>
         </p>
       </div>
     </footer>

@@ -31,4 +31,10 @@ public class TagController {
         TagDTO tag = tagService.getTagById(id);
         return ResponseEntity.ok(tag);
     }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')")
+    public ResponseEntity<List<TagDTO>> searchTags(@org.springframework.web.bind.annotation.RequestParam String keyword) {
+        return ResponseEntity.ok(tagService.searchTags(keyword));
+    }
 }

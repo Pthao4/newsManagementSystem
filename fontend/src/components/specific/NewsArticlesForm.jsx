@@ -4,31 +4,33 @@ import { useNavigate, useParams } from "react-router-dom";
 import { newsArticleAPI } from "../../api/newsArticleAPI";
 import { categoryAPI } from "../../api/categoryAPI";
 import { tagAPI } from "../../api/tagAPI";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import TagInput from "../common/TagInput";
 
 export default function NewsArticlesForm({ mode = "add" }) {
   const { id } = useParams();
   const navigate = useNavigate();
   // const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
+    defaultValues: {
+      newsTagNames: []
+    }
+  });
 
 
   const [categories, setCategories] = useState([]);
-  const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch categories & tags
+  // Fetch categories
   useEffect(() => {
      async function loadOptions() {
       try {
         const cat = await categoryAPI.getCategories();
-        const tag = await tagAPI.getTags();
         setCategories(cat);
-        setTags(tag);
       } catch (err) {
-        console.error("Error loading categories/tags:", err);
+        console.error("Error loading categories:", err);
       } finally {
-        setLoading(false); // <-- xong thì tắt loading
+        setLoading(false);
       }
     }
     loadOptions();
@@ -47,7 +49,7 @@ export default function NewsArticlesForm({ mode = "add" }) {
           source: article.source,
           status: article.status,
           categoryId: article.categoryId,
-          newsTagIDs: article.newsTagIDs.map(String) || [],
+          newsTagNames: article.newsTagNames || [],
         });
       }
       loadData();
@@ -63,7 +65,7 @@ export default function NewsArticlesForm({ mode = "add" }) {
       source: data.source,
       status: data.status || false,
       categoryId: Number(data.categoryId),
-      newsTagIDs: data.newsTagIDs ? data.newsTagIDs.map(Number) : [],
+      newsTagNames: data.newsTagNames || [],
     };
 
     try {
@@ -165,14 +167,17 @@ export default function NewsArticlesForm({ mode = "add" }) {
         </Row>
 
         <Form.Group className="mb-3">
-          <Form.Label>Tags</Form.Label>
-          <Form.Select multiple {...register("newsTagIDs")}>
-            {tags.map((tag) => (
-              <option key={tag.id} value={tag.id}>
-                {tag.name}
-              </option>
-            ))}
-          </Form.Select>
+          <Form.Label>Tags (Press Enter to add new tag)</Form.Label>
+          <Controller
+            name="newsTagNames"
+            control={control}
+            render={({ field }) => (
+              <TagInput
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
         </Form.Group>
 
         <Form.Group className="mb-4">

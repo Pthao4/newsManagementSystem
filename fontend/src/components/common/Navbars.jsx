@@ -27,7 +27,7 @@ export default function Navbars() {
       <Container>
         {/* Logo */}
         <Navbar.Brand as={Link} to="/home" className="fw-bold text-uppercase">
-          FUNews
+          NMS
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -44,7 +44,7 @@ export default function Navbars() {
               </Nav.Link>
             )}
             {isStaff && (
-            <Nav.Link as={Link} to="/newsArticles" className="fw-semibold">
+              <Nav.Link as={Link} to="/newsArticles" className="fw-semibold">
                 News
               </Nav.Link>
             )}
@@ -67,16 +67,16 @@ export default function Navbars() {
 
             <Dropdown.Menu className="shadow-sm">
               <Dropdown.Item as={Link} to="/profile">
-                 Profile
+                Profile
               </Dropdown.Item>
               {isStaff && (
                 <Dropdown.Item as={Link} to="/history">
-                   My Articles
+                  My Articles
                 </Dropdown.Item>
               )}
               <Dropdown.Divider />
               <Dropdown.Item onClick={handleLogout} className="text-danger fw-semibold">
-                 Logout
+                Logout
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
