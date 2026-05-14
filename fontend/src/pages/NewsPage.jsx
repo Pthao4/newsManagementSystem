@@ -2,12 +2,16 @@ import { newsArticleAPI } from "../api/newsArticleAPI";
 import { useState, useEffect } from "react";
 // import TableFormatter from "../components/common/TableFormat";
 import { useNavigate } from "react-router-dom";
-import { Table, Badge, Row, Button } from "react-bootstrap";
+import { useAuth } from "../context/useAuth";
 import { formatDate } from "../untils/format";
+import { Button, Table, Badge } from "react-bootstrap";
 
 export default function NewsPage() {
+  const { user } = useAuth();
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+
+  const isStaff = user?.role === "ROLE_STAFF" || user?.role === "ROLE_ADMIN";
 
   async function fetchData() {
     const result = await newsArticleAPI.getNewsArticles();
@@ -40,9 +44,11 @@ export default function NewsPage() {
   return (
     <>
       <h2 className="mb-4">News Articles</h2>
-      <div className="d-flex justify-content-end">
-        <Button variant="primary" className="mb-3" onClick={()=>{handleAdd()}}>Add News Article</Button>
-      </div>
+      {isStaff && (
+        <div className="d-flex justify-content-end">
+          <Button variant="primary" className="mb-3" onClick={()=>{handleAdd()}}>Add News Article</Button>
+        </div>
+      )}
       {/* <TableFormatter
         columns={columns}
         data={data}
@@ -58,7 +64,7 @@ export default function NewsPage() {
           <th>Category Name</th>
           <th>Created By</th>
           <th>Modified Date</th>
-          <th>Actions</th>
+          {isStaff && <th>Actions</th>}
         </tr>
       </thead>
 
@@ -84,8 +90,8 @@ export default function NewsPage() {
                   ? formatDate(new Date(article.modifiedDate).toLocaleString())
                   : "N/A"}
               </td>
-              <td>
-                
+              {isStaff && (
+                <td>
                   <Button
                     variant="info"
                     size="sm"
@@ -102,8 +108,8 @@ export default function NewsPage() {
                   >
                     Delete
                   </Button>
-                
-              </td>
+                </td>
+              )}
             </tr>
           ))
         ) : (

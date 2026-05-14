@@ -12,7 +12,7 @@ import NewsArticlesForm from "./components/specific/NewsArticlesForm";
 import Forbidden from "./pages/Forbidden";
 import Logout from "./pages/Logout";
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./context/ProtectedRoute"; 
+import ProtectedRoute from "./context/ProtectedRoute";
 import NewsDetailPage from "./pages/NewsDetailPage";
 import UserForm from "./components/specific/UserForm";
 import ProfilePage from "./pages/ProfilePage";
@@ -40,24 +40,70 @@ function App() {
           >
             <Route index element={<Home />} />
             <Route path="home" element={<Home />} />
-            <Route path="categories">
-              <Route index element={<CategoryPage />} />
-              <Route path="add" element={<CategoryForm />} />
-              <Route path="edit/:id" element={<CategoryForm mode="edit" />} />
-            </Route>
-            <Route path="users">
-              <Route index element={<UserPage />} />
-              <Route path="add" element={<UserForm mode="add" />} />
-              <Route path="edit/:id" element={<UserForm mode="edit" />} />
-            </Route>
+
+            {/* Categories: STAFF & ADMIN */}
+            <Route path="categories" element={
+              <ProtectedRoute roles={["ROLE_STAFF", "ROLE_ADMIN"]}>
+                <CategoryPage />
+              </ProtectedRoute>
+            } />
+            <Route path="categories/add" element={
+              <ProtectedRoute roles={["ROLE_STAFF", "ROLE_ADMIN"]}>
+                <CategoryForm />
+              </ProtectedRoute>
+            } />
+            <Route path="categories/edit/:id" element={
+              <ProtectedRoute roles={["ROLE_STAFF", "ROLE_ADMIN"]}>
+                <CategoryForm mode="edit" />
+              </ProtectedRoute>
+            } />
+
+            {/* Users: ADMIN only */}
+            <Route path="users" element={
+              <ProtectedRoute roles={["ROLE_ADMIN"]}>
+                <UserPage />
+              </ProtectedRoute>
+            } />
+            <Route path="users/add" element={
+              <ProtectedRoute roles={["ROLE_ADMIN"]}>
+                <UserForm mode="add" />
+              </ProtectedRoute>
+            } />
+            <Route path="users/edit/:id" element={
+              <ProtectedRoute roles={["ROLE_ADMIN"]}>
+                <UserForm mode="edit" />
+              </ProtectedRoute>
+            } />
+
             <Route path="newsArticles">
-              <Route index element={<NewsPage />} />
-              <Route path="add" element={<NewsArticlesForm mode="add" />} />
-              <Route path="edit/:id" element={<NewsArticlesForm mode="edit" />} />
+              <Route index element={
+                <ProtectedRoute roles={["ROLE_STAFF", "ROLE_ADMIN"]}>
+                  <NewsPage />
+                </ProtectedRoute>} />
+              <Route path="add" element={
+                <ProtectedRoute roles={["ROLE_STAFF", "ROLE_ADMIN"]}>
+                  <NewsArticlesForm mode="add" />
+                </ProtectedRoute>
+              } />
+              <Route path="edit/:id" element={
+                <ProtectedRoute roles={["ROLE_STAFF", "ROLE_ADMIN"]}>
+                  <NewsArticlesForm mode="edit" />
+                </ProtectedRoute>
+              } />
               <Route path=":id" element={<NewsDetailPage />} />
             </Route>
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/history" element={<HistoryPage />} />
+
+            <Route path="/profile" element={
+              <ProtectedRoute roles={["ROLE_USER", "ROLE_STAFF", "ROLE_ADMIN"]}>
+                <ProfilePage />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/history" element={
+              <ProtectedRoute roles={["ROLE_STAFF", "ROLE_ADMIN"]}>
+                <HistoryPage />
+              </ProtectedRoute>
+            } />
           </Route>
         </Routes>
       </BrowserRouter>

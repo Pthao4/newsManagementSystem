@@ -37,7 +37,7 @@ export default function SignUp() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        role: 2, // mặc định role là 2 = Staff
+        role: "USER", // mặc định role là USER
       });
 
       setSuccess("Registration successful!");

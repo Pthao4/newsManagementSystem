@@ -59,4 +59,20 @@ public class SystemAccountController {
         }
         return ResponseEntity.badRequest().body("Account not found");
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateSystemAccount(@PathVariable Integer id, @RequestBody SystemAccountDTO systemAccountDTO) {
+        SystemAccountDTO existingAccount = systemAccountService.findById(id);
+        if (existingAccount == null) {
+            return ResponseEntity.badRequest().body("Account not found");
+        }
+        
+        // Cập nhật thông tin (ví dụ: Role)
+        existingAccount.setRole(systemAccountDTO.getRole());
+        existingAccount.setName(systemAccountDTO.getName());
+        // Có thể thêm các trường khác nếu cần
+
+        systemAccountService.updateSystemAccount(existingAccount);
+        return ResponseEntity.ok().body(existingAccount);
+    }
 }

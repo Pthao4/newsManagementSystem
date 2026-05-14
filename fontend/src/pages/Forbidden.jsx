@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Forbidden() {
   const navigate = useNavigate();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/"); // quay về Home sau 2 giây
@@ -11,6 +12,7 @@ export default function Forbidden() {
 
     return () => clearTimeout(timer);
   }, [navigate]);
+
   return (
     <Container className="d-flex vh-100 justify-content-center align-items-center">
       <Alert variant="danger" className="text-center p-4 rounded-3 shadow-lg">
