@@ -35,7 +35,7 @@ public class AuthController {
             SystemAccountDTO account = systemAccountService.findByEmail(request.getEmail());
 
             // Sinh JWT
-            String jwt = jwtService.generateToken(account.getEmail(), account.getRole());
+            String jwt = jwtService.generateToken(account.getEmail(), account.getRole(), account.getName());
 
             // Trả về token + thông tin user
             LoginResponse response = new LoginResponse(jwt, account.getEmail(), account.getRole(), account.getName());

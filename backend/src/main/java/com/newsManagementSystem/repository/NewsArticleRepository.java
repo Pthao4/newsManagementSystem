@@ -14,4 +14,5 @@ public interface NewsArticleRepository extends JpaRepository<NewsArticle, Intege
     List<NewsArticle> findByTitleContainingIgnoreCase(String title);
     boolean existsByCreatedByOrUpdatedBy(SystemAccount creatSystemAccount, SystemAccount updatedSystemAccount);
     List<NewsArticle> findByCreatedBy(SystemAccount creatSystemAccount);
+    List<NewsArticle> findTop10ByStatusOrderByCreatedDateDesc(boolean status);
 }

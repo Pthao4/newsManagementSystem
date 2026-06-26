@@ -1,61 +1,3 @@
-// import { useState, useEffect } from "react";
-// import { newsArticleAPI } from "../api/newsArticleAPI";
-// import HDetailNewsArticles from "../components/specific/HDetailNewsArticles";
-// import DetailNewsArticles from "../components/specific/DetailNewsArticles";
-// import { Container, Row, Col } from "react-bootstrap";
-// import CardVertical from "../components/common/CardVertical";
-// import { InputGroup, Form, Button } from "react-bootstrap";
-// import { BsSearch } from 'react-icons/bs';
-// const Home = () => {
-//   const [articles, setArticles] = useState([]);
-
-//   useEffect(() => {
-//     const fetchArticles = async () => {
-//       const data = await newsArticleAPI.getNewsArticles();
-//       console.log(data);
-//       setArticles(data);
-//     };
-//     fetchArticles();
-//   }, []);
-
-//   return (
-//     <Container className="my-4">
-//       <InputGroup className="d-flex justify-content-center align-items-center w-100">
-//       <InputGroup.Text>Search</InputGroup.Text>
-//       <Form.Control
-//         placeholder="Search by news title"
-//         aria-label="Search"
-//       ></Form.Control>
-//       <Button variant="secondary"><BsSearch/></Button>
-//     </InputGroup>
-//       <Row className="align-items-stretch">
-//         <Col md={8} className="mb-4 d-flex flex-column">
-//           {articles.length > 0 && (
-//             <>
-//               <DetailNewsArticles newsArticles={articles[0]} />
-//               <DetailNewsArticles newsArticles={articles[3]} />
-//             </>
-//           )}
-//         </Col>
-//         <Col md={4} className="mb-4 d-flex flex-column">
-//           {articles.length > 1 && (
-//             <CardVertical article={articles[1]} />
-//           )}
-//         </Col>
-//       </Row>
-//       <h3 className="mt-4 fw-bold">News</h3>
-//       <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 mt-4">
-//         {articles.map((item) => (
-//           <Col className="col" key={item.id}>
-//             <HDetailNewsArticles newsArticles={item} />
-//           </Col>
-//         ))}
-//       </Row>
-//     </Container>
-//   );
-// };
-
-// export default Home;
 import { useState, useEffect } from "react";
 import { newsArticleAPI } from "../api/newsArticleAPI";
 import HDetailNewsArticles from "../components/specific/HDetailNewsArticles";
@@ -66,6 +8,7 @@ import { BsSearch } from "react-icons/bs";
 
 const Home = () => {
   const [articles, setArticles] = useState([]);
+  const [latestArticles, setLatestArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredArticles, setFilteredArticles] = useState([]);
 
@@ -74,6 +17,9 @@ const Home = () => {
       const data = await newsArticleAPI.getNewsArticles();
       setArticles(data);
       setFilteredArticles(data);
+
+      const topData = await newsArticleAPI.getTopNewestNewsArticles();
+      setLatestArticles(topData);
     };
     fetchArticles();
   }, []);
@@ -184,8 +130,8 @@ const Home = () => {
         </Row>
 
         <h4 className="mt-4 fw-bold text-secondary">Latest News</h4>
-        <Row className="row-cols-2 row-cols-sm-3 row-cols-md-4 g-3 mt-2">
-          {articles.map((item) => (
+        <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 mt-2">
+          {latestArticles.map((item) => (
             <Col key={item.id}>
               <HDetailNewsArticles newsArticles={item} />
             </Col>

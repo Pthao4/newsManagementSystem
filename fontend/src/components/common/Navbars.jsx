@@ -3,7 +3,6 @@ import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Link } from "react-router-dom";
-import { FiSettings } from "react-icons/fi";
 import { useAuth } from "../../context/useAuth";
 import { authAPI } from "../../api/authAPI";
 
@@ -60,9 +59,15 @@ export default function Navbars() {
             <Dropdown.Toggle
               variant="outline-light"
               id="dropdown-settings"
-              className="d-flex align-items-center border-0 bg-transparent"
+              className="d-flex align-items-center border-0 bg-transparent text-light"
             >
-              <FiSettings size={22} />
+              <img
+                src={user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=random`}
+                alt="Avatar"
+                className="rounded-circle me-2 object-fit-cover"
+                style={{ width: "35px", height: "35px" }}
+              />
+              <span className="fw-semibold d-none d-md-inline">{user?.name || "User"}</span>
             </Dropdown.Toggle>
 
             <Dropdown.Menu className="shadow-sm">

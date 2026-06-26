@@ -173,4 +173,10 @@ public class NewsArticleServiceImpl implements NewsArticleService {
         return list.stream().map(newsArticleMapper::entityToResponse).collect(Collectors.toList());
     }
 
+    @Override
+    public List<NewsArticleResponse> getTop10NewestActiveArticles() {
+        List<NewsArticle> newsArticles = newsArticleRepository.findTop10ByStatusOrderByCreatedDateDesc(true);
+        return newsArticles.stream().map(newsArticleMapper::entityToResponse).collect(Collectors.toList());
+    }
+
 }
