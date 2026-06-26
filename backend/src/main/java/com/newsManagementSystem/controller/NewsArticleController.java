@@ -25,6 +25,13 @@ public class NewsArticleController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/top-newest")
+    @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')")
+    public ResponseEntity<List<NewsArticleResponse>> getTop10NewestActiveArticles() {
+        List<NewsArticleResponse> list = newsArticleService.getTop10NewestActiveArticles();
+        return ResponseEntity.ok(list);
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')")
     public ResponseEntity<NewsArticleResponse> getNewsArticleById(@PathVariable int id) {

@@ -17,5 +17,6 @@ public interface NewsArticleService {
     NewsArticleResponse createNewsArticle(NewsArticleRequest newsArticleRequest);;
     boolean existsAriclesDependence(SystemAccountDTO systemAccountDTO);
     List<NewsArticleResponse> getAllNewsArticleByCreatedBy(SystemAccountDTO systemAccountDTO);
+    List<NewsArticleResponse> getTop10NewestActiveArticles();
 
 }

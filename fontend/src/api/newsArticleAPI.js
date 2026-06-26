@@ -63,5 +63,16 @@ const deleteNewsArticle = async (id) => {
 }
 
 
-export const newsArticleAPI = { getNewsArticles, getNewsArticleById, createNewsArticle, updateNewsArticle, deleteNewsArticle };
+const getTopNewestNewsArticles = async () => {
+  try {
+    const response = await axiosClient.get('newsArticles/top-newest');
+    console.log('Fetched top newest news articles:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching top newest news articles:', error);
+    return [];
+  }
+};
+
+export const newsArticleAPI = { getNewsArticles, getTopNewestNewsArticles, getNewsArticleById, createNewsArticle, updateNewsArticle, deleteNewsArticle };
 

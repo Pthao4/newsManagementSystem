@@ -49,4 +49,9 @@ const register = async ({name, email, password, role}) => {
   }
 };
 
-export const authAPI = { login, logout, register };
+const getProfile = async () => {
+  const response = await axiosClient.get("profile");
+  return response.data;
+};
+
+export const authAPI = { login, logout, register, getProfile };
