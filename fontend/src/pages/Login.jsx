@@ -95,7 +95,7 @@ export default function LoginForm() {
 
       // ✅ Lưu token và cập nhật user context
       if (data?.token) {
-        login(data.token);
+        await login(data.token);
         navigate("/");
       } else {
         console.error("No token found in response:", data);

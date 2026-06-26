@@ -4,6 +4,7 @@ import { Card, Button, Badge, Spinner, Container } from "react-bootstrap";
 import { newsArticleAPI } from "../api/newsArticleAPI";
 import { formatDate } from "../untils/format";
 import DOMPurify from "dompurify";
+import CommentSection from "../components/specific/CommentSection";
 
 export default function NewsDetailPage() {
   const { id } = useParams();
@@ -117,6 +118,9 @@ export default function NewsDetailPage() {
           </Button>
         </Card.Footer>
       </Card>
+      
+      {/* Comments Section */}
+      <CommentSection articleId={id} />
     </Container>
   );
 }
