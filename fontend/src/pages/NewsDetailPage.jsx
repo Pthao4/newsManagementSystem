@@ -93,8 +93,15 @@ export default function NewsDetailPage() {
           )}
 
           {/* Content */}
+          <style>{`
+            .article-content img {
+              max-width: 100%;
+              height: auto;
+              object-fit: contain;
+            }
+          `}</style>
           <Card.Text 
-            className="text-secondary fs-6 lh-base" 
+            className="article-content text-secondary fs-6 lh-base" 
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} 
           />
         </Card.Body>
