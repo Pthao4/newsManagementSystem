@@ -27,7 +27,7 @@ public class NewsArticle {
     @Column(name = "Headline", length = 150, nullable = false)
     private String headline;
 
-    @Column(name = "NewsContent", length = 4000)
+    @Column(name = "NewsContent", columnDefinition = "LONGTEXT")
     private String content;
 
     @Column(name = "NewsSource", length = 400)
@@ -41,11 +41,14 @@ public class NewsArticle {
     )
     private List<Tag> newsTag;
 
+    @OneToMany(mappedBy = "newsArticle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Attachment> attachments;
+
 //    @Enumerated(EnumType.STRING)
     @Column(name = "NewsStatus")
     private boolean status;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CategoryID")
     private Category category;
 

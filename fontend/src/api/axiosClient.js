@@ -1,17 +1,17 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:8080/',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-    timeout: 5000, // 5 seconds timeout
-    withCredentials: true, // Include cookies in requests
-    responseType: 'json',
-    responseEncoding: 'utf8',
-    validateStatus: function (status) {
-        return status >= 200 && status < 300; // Resolve only if the status code is less than 300
-    },
+  timeout: 5000, // 5 seconds timeout
+  withCredentials: true, // Include cookies in requests
+  responseType: 'json',
+  responseEncoding: 'utf8',
+  validateStatus: function (status) {
+    return status >= 200 && status < 300; // Resolve only if the status code is less than 300
+  },
 });
 // INTERCEPTOR CHO REQUEST (thêm token)
 axiosClient.interceptors.request.use(

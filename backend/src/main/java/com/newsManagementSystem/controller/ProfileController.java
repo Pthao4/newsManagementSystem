@@ -32,6 +32,7 @@ public class ProfileController {
         ProfileResponse profile = new ProfileResponse();
         profile.setEmail(account.getEmail());
         profile.setName(account.getName());
+        profile.setAvatar(account.getAvatar());
         return ResponseEntity.ok(profile);
     }
 
@@ -62,6 +63,10 @@ public class ProfileController {
                 }
                 existingAccount.setEmail(newEmail);
             }
+        }
+
+        if (systemAccount.getAvatar() != null && !systemAccount.getAvatar().isBlank()) {
+            existingAccount.setAvatar(systemAccount.getAvatar());
         }
 
         systemAccountService.updateSystemAccount(existingAccount);

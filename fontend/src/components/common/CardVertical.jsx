@@ -62,7 +62,7 @@ export default function CardVertical({ article }) {
             overflow: "hidden",
           }}
         >
-          {content}
+          {content?.replace(/<[^>]+>/g, "")}
         </Card.Text>
 
       </Card.Body>

@@ -138,9 +138,9 @@ const Home = () => {
                       : article.title}
                   </Card.Title>
                   <Card.Text className="text-muted small mb-2">
-                    {article.content?.length > 120
-                      ? article.content.substring(0, 120) + "..."
-                      : article.content}
+                    {article.content?.replace(/<[^>]+>/g, "").length > 120
+                      ? article.content.replace(/<[^>]+>/g, "").substring(0, 120) + "..."
+                      : article.content?.replace(/<[^>]+>/g, "")}
                   </Card.Text>
                   <Button
                     variant="outline-secondary"

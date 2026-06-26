@@ -5,6 +5,7 @@ import com.newsManagementSystem.dto.NewsArticleResponse;
 import com.newsManagementSystem.dto.SystemAccountDTO;
 import com.newsManagementSystem.entity.Category;
 import com.newsManagementSystem.entity.NewsArticle;
+import com.newsManagementSystem.entity.Attachment;
 import com.newsManagementSystem.entity.SystemAccount;
 import com.newsManagementSystem.entity.Tag;
 import com.newsManagementSystem.mapper.NewsArticleMapper;
@@ -17,6 +18,9 @@ import com.newsManagementSystem.service.NewsArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -58,6 +62,9 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     public NewsArticleResponse saveNewsArticle(NewsArticleRequest newsArticleRequest) {
         System.out.println(newsArticleRequest.toString());
         NewsArticle entity = newsArticleMapper.requestToEntity(newsArticleRequest);
+        if (entity.getContent() != null) {
+            entity.setContent(Jsoup.clean(entity.getContent(), Safelist.relaxed()));
+        }
         if (newsArticleRequest.getNewsTagNames() != null) {
             entity.setNewsTag(tagService.findOrCreateTags(newsArticleRequest.getNewsTagNames()));
         }
@@ -78,10 +85,37 @@ public class NewsArticleServiceImpl implements NewsArticleService {
         System.out.println("Bắt đầu update");
         existing.setTitle(newsArticleRequest.getTitle());
         existing.setHeadline(newsArticleRequest.getHeadline());
-        existing.setContent(newsArticleRequest.getContent());
+        if (newsArticleRequest.getContent() != null) {
+            existing.setContent(Jsoup.clean(newsArticleRequest.getContent(), Safelist.relaxed()));
+        } else {
+            existing.setContent(null);
+        }
         existing.setSource(newsArticleRequest.getSource());
         existing.setStatus(newsArticleRequest.isStatus());
         existing.setModifiedDate(LocalDateTime.now());
+        
+        if (newsArticleRequest.getAttachments() != null) {
+            if (existing.getAttachments() != null) {
+                existing.getAttachments().clear();
+            }
+            List<Attachment> newAttachments = newsArticleRequest.getAttachments().stream().map(dto -> {
+                Attachment att = new Attachment();
+                att.setId(dto.getId());
+                att.setFileName(dto.getFileName());
+                att.setContentType(dto.getContentType());
+                att.setSize(dto.getSize());
+                att.setUrl(dto.getUrl());
+                att.setNewsArticle(existing);
+                return att;
+            }).collect(Collectors.toList());
+            if (existing.getAttachments() == null) {
+                existing.setAttachments(newAttachments);
+            } else {
+                existing.getAttachments().addAll(newAttachments);
+            }
+        } else if (existing.getAttachments() != null) {
+            existing.getAttachments().clear();
+        }
 
         // ✅ Cập nhật category nếu có
         if (newsArticleRequest.getCategoryId() != null) {

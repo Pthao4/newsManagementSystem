@@ -13,4 +13,5 @@ public class SystemAccountDTO {
     private String email;
     private Role role;
     private String password;
+    private String avatar;
 }

@@ -1,25 +1,28 @@
-import { useEffect, useState } from "react";
-import { Button, Form, Row, Col, Card } from "react-bootstrap";
+import { useEffect, useState, useRef, useMemo } from "react";
+import { Button, Form, Row, Col, Card, ListGroup } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { newsArticleAPI } from "../../api/newsArticleAPI";
 import { categoryAPI } from "../../api/categoryAPI";
-import { tagAPI } from "../../api/tagAPI";
+import { fileAPI } from "../../api/fileAPI";
 import { useForm, Controller } from "react-hook-form";
 import TagInput from "../common/TagInput";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
+import { FaTrash, FaPaperclip } from "react-icons/fa";
 
 export default function NewsArticlesForm({ mode = "add" }) {
   const { id } = useParams();
   const navigate = useNavigate();
-  // const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
   const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
     defaultValues: {
       newsTagNames: []
     }
   });
 
-
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [attachments, setAttachments] = useState([]);
+  const quillRef = useRef(null);
 
   // Fetch categories
   useEffect(() => {
@@ -36,7 +39,7 @@ export default function NewsArticlesForm({ mode = "add" }) {
     loadOptions();
   }, []);
 
-  // Nếu là chế độ edit thì fetch dữ liệu bài viết
+  // Fetch data if edit mode
   useEffect(() => {
     if (mode === "edit" && id) {
       async function loadData() {
@@ -51,10 +54,75 @@ export default function NewsArticlesForm({ mode = "add" }) {
           categoryId: article.categoryId,
           newsTagNames: article.newsTagNames || [],
         });
+        if (article.attachments) {
+          setAttachments(article.attachments);
+        }
       }
       loadData();
     }
   }, [id, mode, reset]);
+
+  // Image Upload Handler for ReactQuill
+  const imageHandler = () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (file) {
+        try {
+          const res = await fileAPI.uploadImage(file);
+          const url = res.url;
+          const quill = quillRef.current.getEditor();
+          const range = quill.getSelection(true);
+          quill.insertEmbed(range.index, "image", url);
+        } catch (error) {
+          console.error("Error uploading image:", error);
+          alert("Failed to upload image.");
+        }
+      }
+    };
+  };
+
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, false] }],
+        ["bold", "italic", "underline", "strike"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link", "image"],
+        ["clean"],
+      ],
+      handlers: {
+        image: imageHandler,
+      },
+    },
+  }), []);
+
+  // Attachment Handler
+  const handleAttachmentUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const res = await fileAPI.uploadFile(file);
+        setAttachments((prev) => [...prev, {
+          fileName: res.fileName,
+          url: res.url,
+          contentType: res.contentType,
+          size: res.size
+        }]);
+      } catch (error) {
+        console.error("Error uploading attachment:", error);
+        alert("Failed to upload attachment.");
+      }
+    }
+  };
+
+  const removeAttachment = (index) => {
+    setAttachments((prev) => prev.filter((_, i) => i !== index));
+  };
 
   // Submit handler
   const onSubmit = async (data) => {
@@ -66,13 +134,13 @@ export default function NewsArticlesForm({ mode = "add" }) {
       status: data.status || false,
       categoryId: Number(data.categoryId),
       newsTagNames: data.newsTagNames || [],
+      attachments: attachments
     };
 
     try {
       if (mode === "add") {
         await newsArticleAPI.createNewsArticle(payload);
       } else {
-        console.log("Updating article id:", id, "with payload:", payload);
         await newsArticleAPI.updateNewsArticle(id, payload);
       }
       navigate("/newsArticles");
@@ -121,16 +189,55 @@ export default function NewsArticlesForm({ mode = "add" }) {
 
         <Form.Group className="mb-3">
           <Form.Label>Content *</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={5}
-            placeholder="Enter content"
-            {...register("content", { required: "Content is required" })}
-            isInvalid={!!errors.content}
+          <Controller
+            name="content"
+            control={control}
+            rules={{ required: "Content is required" }}
+            render={({ field }) => (
+              <ReactQuill
+                ref={quillRef}
+                theme="snow"
+                value={field.value || ""}
+                onChange={field.onChange}
+                modules={modules}
+                style={{ height: "300px", marginBottom: "50px" }}
+              />
+            )}
           />
-          <Form.Control.Feedback type="invalid">
-            {errors.content?.message}
-          </Form.Control.Feedback>
+          {errors.content && (
+            <div className="text-danger mt-1" style={{ fontSize: "0.875em" }}>
+              {errors.content.message}
+            </div>
+          )}
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Attachments</Form.Label>
+          <div className="mb-2">
+            <Button as="label" htmlFor="attachment-upload" variant="outline-primary" size="sm">
+              <FaPaperclip className="me-2" />
+              Upload File (PDF, DOCX, etc.)
+            </Button>
+            <input
+              type="file"
+              id="attachment-upload"
+              style={{ display: "none" }}
+              onChange={handleAttachmentUpload}
+              accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+            />
+          </div>
+          {attachments.length > 0 && (
+            <ListGroup>
+              {attachments.map((att, idx) => (
+                <ListGroup.Item key={idx} className="d-flex justify-content-between align-items-center">
+                  <a href={att.url} target="_blank" rel="noreferrer">{att.fileName}</a>
+                  <Button variant="danger" size="sm" onClick={() => removeAttachment(idx)}>
+                    <FaTrash />
+                  </Button>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          )}
         </Form.Group>
 
         <Row className="mb-3">

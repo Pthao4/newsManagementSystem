@@ -49,7 +49,7 @@ export default function HDetailNewsArticles({ newsArticles }) {
             overflow: "hidden",
           }}
         >
-          {content}
+          {content?.replace(/<[^>]+>/g, "")}
         </Card.Text>
 
         {/* Info */}

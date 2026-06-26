@@ -43,7 +43,7 @@ public class SecurityConfig {
                 (cors) -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorizeRequests) -> {
-                    authorizeRequests.requestMatchers("/auth/**").permitAll();
+                    authorizeRequests.requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
                     // Cho phép các request đã authenticate đi tiếp vào Controller để @PreAuthorize xử lý
                     authorizeRequests.anyRequest().authenticated();
                 })

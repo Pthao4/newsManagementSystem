@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Card, Button, Badge, Spinner, Container } from "react-bootstrap";
 import { newsArticleAPI } from "../api/newsArticleAPI";
 import { formatDate } from "../untils/format";
+import DOMPurify from "dompurify";
 
 export default function NewsDetailPage() {
   const { id } = useParams();
@@ -92,9 +93,10 @@ export default function NewsDetailPage() {
           )}
 
           {/* Content */}
-          <Card.Text className="text-secondary fs-6 lh-base">
-            {content}
-          </Card.Text>
+          <Card.Text 
+            className="text-secondary fs-6 lh-base" 
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} 
+          />
         </Card.Body>
 
         {/* Footer */}

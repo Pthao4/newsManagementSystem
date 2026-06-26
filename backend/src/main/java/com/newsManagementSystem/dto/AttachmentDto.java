@@ -1,0 +1,18 @@
+package com.newsManagementSystem.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class AttachmentDto {
+    private Integer id;
+    private String fileName;
+    private String contentType;
+    private Long size;
+    private String url;
+}

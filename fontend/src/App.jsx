@@ -17,6 +17,7 @@ import NewsDetailPage from "./pages/NewsDetailPage";
 import UserForm from "./components/specific/UserForm";
 import ProfilePage from "./pages/ProfilePage";
 import HistoryPage from "./pages/HistoryPage";
+import MinioTestPage from "./pages/MinioTestPage";
 
 function App() {
   return (
@@ -102,6 +103,12 @@ function App() {
             <Route path="/history" element={
               <ProtectedRoute roles={["ROLE_STAFF", "ROLE_ADMIN"]}>
                 <HistoryPage />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/minio-test" element={
+              <ProtectedRoute roles={["ROLE_STAFF", "ROLE_ADMIN"]}>
+                <MinioTestPage />
               </ProtectedRoute>
             } />
           </Route>

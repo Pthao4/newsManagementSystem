@@ -30,4 +30,7 @@ public class SystemAccount {
 
     @Column(name = "AccountPassword", length = 70)
     private String password;
+
+    @Column(name = "AccountAvatar", length = 1000)
+    private String avatar;
 }

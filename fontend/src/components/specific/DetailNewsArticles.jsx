@@ -30,8 +30,8 @@ export default function DetailNewsArticles({ newsArticles }) {
             </div>
 
             <Card.Text className="lh-base">
-              {(newsArticles.content ?? "").slice(0, 200) + 
-              (newsArticles.content?.length > 200 ? "..." : "")}
+              {(newsArticles.content?.replace(/<[^>]+>/g, "") ?? "").slice(0, 200) + 
+              (newsArticles.content?.replace(/<[^>]+>/g, "").length > 200 ? "..." : "")}
             </Card.Text>
           </Col>
 

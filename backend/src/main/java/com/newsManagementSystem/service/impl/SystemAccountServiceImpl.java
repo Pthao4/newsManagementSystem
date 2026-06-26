@@ -35,6 +35,7 @@ public class SystemAccountServiceImpl implements SystemAccountService {
         account.setEmail(systemAccountDTO.getEmail());
         account.setRole(systemAccountDTO.getRole());
         account.setName(systemAccountDTO.getName());
+        account.setAvatar(systemAccountDTO.getAvatar());
         systemAccountRepository.save(account);
         return systemAccountMapper.toDTO(account);
     }
