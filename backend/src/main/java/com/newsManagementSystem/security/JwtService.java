@@ -1,5 +1,6 @@
 package com.newsManagementSystem.security;
 
+import com.newsManagementSystem.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -28,13 +29,10 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    public String generateToken(String email, int role) {
+    public String generateToken(String email, Role role) {
         Map<String, Object> claims = new HashMap<>();
-        if(role == 1){
-            claims.put("role", "ROLE_ADMIN");
-        }else if(role == 2){
-            claims.put("role", "ROLE_STAFF");
-        }
+        claims.put("role", "ROLE_" + role.name());
+        
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(email)

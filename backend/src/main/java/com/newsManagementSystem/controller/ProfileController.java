@@ -22,6 +22,7 @@ public class ProfileController {
     private final NewsArticleService newsArticleService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')")
     public ResponseEntity<?> profile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -31,11 +32,12 @@ public class ProfileController {
         ProfileResponse profile = new ProfileResponse();
         profile.setEmail(account.getEmail());
         profile.setName(account.getName());
+        profile.setAvatar(account.getAvatar());
         return ResponseEntity.ok(profile);
     }
 
     @PutMapping
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')")
     public ResponseEntity<?> changeProfile(@RequestBody SystemAccountDTO systemAccount) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentEmail = authentication.getName();
@@ -63,12 +65,16 @@ public class ProfileController {
             }
         }
 
+        if (systemAccount.getAvatar() != null && !systemAccount.getAvatar().isBlank()) {
+            existingAccount.setAvatar(systemAccount.getAvatar());
+        }
+
         systemAccountService.updateSystemAccount(existingAccount);
         return ResponseEntity.ok(existingAccount);
     }
 
     @GetMapping("/history")
-    @PreAuthorize("hasRole('STAFF')") 
+    @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')") 
     public ResponseEntity<?> getMyArticleHistory() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();

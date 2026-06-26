@@ -1,5 +1,6 @@
 package com.newsManagementSystem.entity;
 
+import com.newsManagementSystem.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,16 +18,19 @@ public class SystemAccount {
     @Column(name = "AccountID", nullable = false)
     private int id;
 
-    @Column(name = "AccountName", columnDefinition = "nvarchar(100)")
+    @Column(name = "AccountName", length = 100)
     private String name;
 
-    @Column(name = "AccountEmail", columnDefinition = "nvarchar(70)")
+    @Column(name = "AccountEmail", length = 70)
     private String email;
 
-//    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "AccountRole")
-    private int role;
+    private Role role;
 
-    @Column(name = "AccountPassword", columnDefinition = "nvarchar(70)")
+    @Column(name = "AccountPassword", length = 70)
     private String password;
+
+    @Column(name = "AccountAvatar", length = 1000)
+    private String avatar;
 }

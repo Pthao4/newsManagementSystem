@@ -37,11 +37,8 @@ public class AuthController {
             // Sinh JWT
             String jwt = jwtService.generateToken(account.getEmail(), account.getRole());
 
-            // Xác định role
-            String role = account.getRole() == 1 ? "ADMIN" : "STAFF";
-
             // Trả về token + thông tin user
-            LoginResponse response = new LoginResponse(jwt, account.getEmail(), role, account.getName());
+            LoginResponse response = new LoginResponse(jwt, account.getEmail(), account.getRole(), account.getName());
             return ResponseEntity.ok(response);
 
         } catch (BadCredentialsException e) {

@@ -10,9 +10,17 @@ const ProtectedRoute = ({ children, roles }) => {
     return <Navigate to="/login" replace />;
   }
 
-  // Nếu có truyền roles (ví dụ chỉ cho ADMIN)
-  if (roles && !roles.includes(user.role)) {
-    return <Navigate to="/forbidden" replace />;
+  // Nếu route yêu cầu phân quyền
+  if (roles && roles.length > 0) {
+    const userRole = user.role || user.roles;
+    
+    const hasPermission = Array.isArray(userRole)
+      ? userRole.some((r) => roles.includes(r))
+      : roles.includes(userRole);
+
+    if (!hasPermission) {
+      return <Navigate to="/forbidden" replace />;
+    }
   }
 
   return children;

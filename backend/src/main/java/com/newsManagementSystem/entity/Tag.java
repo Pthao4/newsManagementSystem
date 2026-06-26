@@ -15,13 +15,13 @@ import java.util.List;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TagID", columnDefinition = "int", nullable = false)
+    @Column(name = "TagID", nullable = false)
     private int id;
 
-    @Column(name = "TagName", columnDefinition = "nvarchar(50)")
+    @Column(name = "TagName", length = 50)
     private String name;
 
-    @Column(name = "Note", columnDefinition = "nvarchar(400)")
+    @Column(name = "Note", length = 400)
     private String note;
 
     @ManyToMany(mappedBy = "newsTag" , fetch = FetchType.LAZY)

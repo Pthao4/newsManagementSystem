@@ -5,6 +5,7 @@ import com.newsManagementSystem.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,25 +18,21 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')")
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {
-//        Pageable pageable = PageRequest.of(page, 10);
-//        Page<CategoryDTO> categories = categoryService.getCategories(pageable);
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("data", categories.getContent());
-//        map.put("page", categories.getNumber());
-//        map.put("totalPages", categories.getTotalPages());
-//        map.put("totalElements", categories.getTotalElements());
         List<CategoryDTO> categories = categoryService.getAllCategories();
         return ResponseEntity.ok(categories);
     }
 
     @PostMapping()
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseEntity<CategoryDTO> addCategory(@RequestBody CategoryDTO categoryDTO) {
         CategoryDTO savedCategory = categoryService.saveCategory(categoryDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Integer id, @RequestBody CategoryDTO categoryDTO) {
         CategoryDTO findedCategory = categoryService.getCategoryById(id);
         findedCategory.setName(categoryDTO.getName());
@@ -47,12 +44,14 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER', 'STAFF', 'ADMIN')")
     public CategoryDTO getCategoryByID(@PathVariable Integer id) {
         CategoryDTO category = categoryService.getCategoryById(id);
         return category;
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('STAFF', 'ADMIN')")
     public void deleteCategory(@PathVariable Integer id) {
         CategoryDTO category = categoryService.getCategoryById(id);
         category.setActive(false);

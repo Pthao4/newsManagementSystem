@@ -18,19 +18,19 @@ public class NewsArticle {
 //    @UuidGenerator(style = UuidGenerator.Style.TIME)
 //    @GeneratedValue
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "NewsArticleID", columnDefinition = "nvarchar", length = 20, nullable = false)
+    @Column(name = "NewsArticleID", nullable = false)
     private int id;
 
-    @Column(name = "NewsTitle", columnDefinition = "nvarchar",length = 400, nullable = true)
+    @Column(name = "NewsTitle", length = 400, nullable = true)
     private String title;
 
-    @Column(name = "Headline", columnDefinition = "nvarchar",length = 150, nullable = false)
+    @Column(name = "Headline", length = 150, nullable = false)
     private String headline;
 
-    @Column(name = "NewsContent", columnDefinition = "nvarchar", length = 4000)
+    @Column(name = "NewsContent", columnDefinition = "LONGTEXT")
     private String content;
 
-    @Column(name = "NewsSource", columnDefinition = "nvarchar", length = 400)
+    @Column(name = "NewsSource", length = 400)
     private String source;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -41,11 +41,14 @@ public class NewsArticle {
     )
     private List<Tag> newsTag;
 
+    @OneToMany(mappedBy = "newsArticle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Attachment> attachments;
+
 //    @Enumerated(EnumType.STRING)
-    @Column(name = "NewsStatus", columnDefinition = "bit")
+    @Column(name = "NewsStatus")
     private boolean status;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CategoryID")
     private Category category;
 

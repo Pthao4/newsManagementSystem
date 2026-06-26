@@ -20,12 +20,12 @@ export default function UserForm() {
 
   // 🔹 Gọi khi submit form
   const onSubmit = async (data) => {
-    // Ép role = 2 (Staff)
+    // Ép role = STAFF
     const newUser = {
       name: data.name,
       email: data.email,
       password: data.password,
-      role: 2,
+      role: "STAFF",
     };
 
     try {

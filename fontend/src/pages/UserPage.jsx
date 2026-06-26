@@ -1,7 +1,7 @@
 import { userAPI } from "../api/userAPI";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Table, Modal } from "react-bootstrap";
+import { Button, Table, Modal, Form } from "react-bootstrap";
 
 export default function UserPage() {
   const [data, setData] = useState([]);
@@ -28,10 +28,25 @@ export default function UserPage() {
       const msg = await userAPI.deleteUserAPI(id);
       setModalMessage(msg);
       setShowModal(true);
-      // Reload list sau khi xóa
       await fetchData();
     } catch (error) {
-      setModalMessage(error.message); // Lấy message từ backend
+      setModalMessage(error.message);
+      setShowModal(true);
+    }
+  };
+
+  const handleRoleChange = async (account, newRole) => {
+    try {
+      // Gửi yêu cầu cập nhật lên backend
+      await userAPI.updateUserAPI(account.id, {
+        ...account,
+        role: newRole
+      });
+      setModalMessage(`Updated ${account.name}'s role to ${newRole}`);
+      setShowModal(true);
+      fetchData(); // Load lại danh sách
+    } catch (error) {
+      setModalMessage(error.message);
       setShowModal(true);
     }
   };
@@ -49,25 +64,37 @@ export default function UserPage() {
 
       <Table striped bordered hover responsive>
         <thead>
-          <tr className="fw-semibold">
+          <tr className="fw-semibold text-center">
             <td>Account Name</td>
             <td>Account Email</td>
-            <td>Account Role</td>
+            <td style={{ width: "200px" }}>Account Role</td>
             <td className="text-center">Action</td>
           </tr>
         </thead>
 
         <tbody>
           {data.map((account) => (
-            <tr key={account.id}>
+            <tr key={account.id} className="align-middle">
               <td>{account.name}</td>
               <td>{account.email}</td>
-              <td>{account.role === 1 ? "Admin" : "Staff"}</td>
+              <td>
+                <Form.Select
+                  size="sm"
+                  value={account.role}
+                  disabled={account.role === "ADMIN"} // Không cho phép đổi quyền của Admin tại đây
+                  onChange={(e) => handleRoleChange(account, e.target.value)}
+                >
+                  <option value="USER">User</option>
+                  <option value="STAFF">Staff</option>
+                  <option value="ADMIN">Admin</option>
+                </Form.Select>
+              </td>
               <td className="text-center">
                 <Button
                   variant="danger"
+                  size="sm"
                   className="fw-semibold text-white"
-                  disabled={account.role === 1}
+                  disabled={account.role === "ADMIN"}
                   onClick={() => {
                      handleDelete(account.id);
                   }}

@@ -14,6 +14,7 @@ public class SystemAccountMapper {
                 .email(system.getEmail())
                 .role(system.getRole())
                 .password(system.getPassword())
+                .avatar(system.getAvatar())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class SystemAccountMapper {
                 .email(systemAccount.getEmail())
                 .role(systemAccount.getRole())
                 .password(systemAccount.getPassword())
+                .avatar(systemAccount.getAvatar())
                 .build();
     }
 

@@ -23,16 +23,27 @@ export const userAPI = {
     }
   },
 
- deleteUserAPI: async (id) => {
+  deleteUserAPI: async (id) => {
     try {
       const response = await axiosClient.delete(`users/${id}`);
       return response.data;
     } catch (error) {
       if (error.response && error.response.data) {
-        // ném lại thông điệp lỗi từ backend (vd: "Can't delete admin account")
         throw new Error(error.response.data);
       }
       throw new Error("Error deleting user");
+    }
+  },
+
+  updateUserAPI: async (id, userData) => {
+    try {
+      const response = await axiosClient.put(`users/${id}`, userData);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw new Error(error.response.data);
+      }
+      throw new Error("Error updating user");
     }
   },
 };

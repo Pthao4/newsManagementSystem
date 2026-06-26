@@ -8,5 +8,9 @@ export const tagAPI = {
     getTagById: async (id) => {
         const response = await axiosClient.get(`tags/${id}`);
         return response.data;
+    },
+    searchTags: async (keyword) => {
+        const response = await axiosClient.get(`tags/search?keyword=${keyword}`);
+        return response.data;
     }
 };

@@ -20,6 +20,7 @@ public class NewsArticleResponse {
     private String source;
     private List<Integer> newsTagIDs;
     private List<String> newsTagNames;
+    private List<AttachmentDto> attachments;
     private boolean status;
     private String categoryName;
     private Integer categoryId;

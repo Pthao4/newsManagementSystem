@@ -4,9 +4,12 @@ import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Link } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
+import { useAuth } from "../../context/useAuth";
 import { authAPI } from "../../api/authAPI";
 
 export default function Navbars() {
+  const { user } = useAuth();
+
   const handleLogout = async () => {
     try {
       await authAPI.logout();
@@ -16,12 +19,15 @@ export default function Navbars() {
     }
   };
 
+  const isAdmin = user?.role === "ROLE_ADMIN";
+  const isStaff = user?.role === "ROLE_STAFF" || isAdmin;
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="shadow-sm">
       <Container>
         {/* Logo */}
         <Navbar.Brand as={Link} to="/home" className="fw-bold text-uppercase">
-          FUNews
+          NMS
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -32,15 +38,21 @@ export default function Navbars() {
             <Nav.Link as={Link} to="/home" className="fw-semibold">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/categories" className="fw-semibold">
-              Category
-            </Nav.Link>
-            <Nav.Link as={Link} to="/newsArticles" className="fw-semibold">
-              News
-            </Nav.Link>
-            <Nav.Link as={Link} to="/users" className="fw-semibold">
-              Users
-            </Nav.Link>
+            {isStaff && (
+              <Nav.Link as={Link} to="/categories" className="fw-semibold">
+                Category
+              </Nav.Link>
+            )}
+            {isStaff && (
+              <Nav.Link as={Link} to="/newsArticles" className="fw-semibold">
+                News
+              </Nav.Link>
+            )}
+            {isAdmin && (
+              <Nav.Link as={Link} to="/users" className="fw-semibold">
+                Users
+              </Nav.Link>
+            )}
           </Nav>
 
           {/* Dropdown Settings */}
@@ -55,14 +67,16 @@ export default function Navbars() {
 
             <Dropdown.Menu className="shadow-sm">
               <Dropdown.Item as={Link} to="/profile">
-                 Profile
+                Profile
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/history">
-                 My Articles
-              </Dropdown.Item>
+              {isStaff && (
+                <Dropdown.Item as={Link} to="/history">
+                  My Articles
+                </Dropdown.Item>
+              )}
               <Dropdown.Divider />
               <Dropdown.Item onClick={handleLogout} className="text-danger fw-semibold">
-                 Logout
+                Logout
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
